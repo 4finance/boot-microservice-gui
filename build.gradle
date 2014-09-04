@@ -21,6 +21,7 @@ apply plugin: 'spring-boot'
 apply plugin: 'maven'
 apply plugin: 'uptodate'
 apply plugin: 'com.ofg.infrastructure.stubrunner'
+apply plugin: 'idea'
 
 ext {
     versionPrefix = "CD"
