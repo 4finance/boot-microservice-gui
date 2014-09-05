@@ -234,7 +234,7 @@ task grunt(type: NodeTask) {
     workingDir = webDir
 }
 
-task cleanGradleDeps << {
+task cleanGUIDeps << {
     ['bower_components', 'node_modules'].each {
         new File(webDir,it).deleteDir()
     }

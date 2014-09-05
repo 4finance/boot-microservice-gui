@@ -51,5 +51,9 @@ connect: {
 Just add whatever you wish. If you don't like exposing every service explicitly, you can expose them all in spring under some
  common path like /rest, and then you have to specify only the /rest in the proxy.
  
+### Cleaning npm and bower deps
+ 
+ Type `gradle cleanGUIDeps`
+ 
 ## Build status
 [![Build Status](https://travis-ci.org/4finance/boot-microservice-gui.svg?branch=master)](https://travis-ci.org/4finance/boot-microservice-gui) [![Coverage Status](http://img.shields.io/coveralls/4finance/boot-microservice-gui/master.svg)](https://coveralls.io/r/4finance/boot-microservice-gui)
