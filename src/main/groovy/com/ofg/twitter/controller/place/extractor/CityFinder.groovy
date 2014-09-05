@@ -17,8 +17,8 @@ class CityFinder {
     }
 
     @Cacheable('cities')
-    Optional<Place.PlaceDetails> findCityFromCoordinates(long latitude, long longitude) {
-        String cityResponse = restTemplate.getForObject("$cityFindingServiceUrl?lat=${latitude.toInteger()}&lon=${longitude.toInteger()}", String)
+    Optional<Place.PlaceDetails> findCityFromCoordinates(Double latitude, Double longitude) {
+        String cityResponse = restTemplate.getForObject("$cityFindingServiceUrl?lat=${latitude}&lon=${longitude}", String)
         def parsedCityResponse = new JsonSlurper().parseText(cityResponse)
         if (!isStatusResponseOk(parsedCityResponse)) {
             return Optional.empty()

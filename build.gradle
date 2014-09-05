@@ -1,3 +1,5 @@
+import org.joda.time.DateTime
+
 buildscript {
     repositories {
         mavenLocal()
@@ -9,6 +11,7 @@ buildscript {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE'
         classpath 'com.ofg:uptodate-gradle-plugin:0.0.5'
         classpath 'com.ofg:micro-deps-gradle-plugin:0.0.2'
+        classpath 'com.moowork.gradle:gradle-node-plugin:0.6'
 
         if(project.hasProperty("coverage")) {
             classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:1.0.2'
@@ -22,6 +25,7 @@ apply plugin: 'maven'
 apply plugin: 'uptodate'
 apply plugin: 'com.ofg.infrastructure.stubrunner'
 apply plugin: 'idea'
+apply plugin: 'com.moowork.node'
 
 ext {
     versionPrefix = "CD"
@@ -59,9 +63,24 @@ task addHashFile << {
     new File("commitHash.txt").withWriter { it << proc.in.text }
 }
 
+processResources {
+    String hashOlfLastCommitCmd = "git log --pretty=format:%H -n 1"
+    def hashProc = hashOlfLastCommitCmd.execute()
+    hashProc.waitFor()
+    // Replace @placeholder@ in resource files with specific data
+    filter ReplaceTokens, tokens: [
+            "last-commit-hash": hashProc.in.text,
+            "build-date-time": DateTime.now().toString("dd/MM/yyyy HH:mm:ss")
+    ]
+}
+
 jar {
     dependsOn addHashFile
     from "commitHash.txt"
+
+    from(fileTree("src/main/web/dist")) {
+        into "static"
+    }
 }
 
 project.gradle.projectsEvaluated {
@@ -184,3 +203,36 @@ if(project.hasProperty("coverage")) {
     }
 
 }
+
+def webDir = new File(projectDir, "src/main/web")
+
+node {
+    // Version of node to use.
+    version = '0.10.29'
+
+    // Enabled the automatic download. False is the default (for now).
+    download = true
+
+    workDir = webDir
+}
+
+task installAllNpm(type: NpmTask) {
+    workingDir = webDir
+    args = ['install']
+}
+
+task bower(type: NodeTask) {
+    script = new File(webDir, 'node_modules/bower/bin/bower')
+    workingDir = webDir
+    args = ['install']
+}
+
+task grunt(type: NodeTask) {
+    script = new File(webDir, 'node_modules/grunt-cli/bin/grunt')
+    workingDir = webDir
+}
+
+// run bower and grunt to build the web
+grunt.dependsOn bower
+bower.dependsOn installAllNpm
+jar.dependsOn grunt

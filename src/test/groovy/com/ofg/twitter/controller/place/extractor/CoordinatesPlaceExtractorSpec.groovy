@@ -43,14 +43,14 @@ class CoordinatesPlaceExtractorSpec extends Specification {
 
     private static final CityFinder NEW_PLACE_RETURNING_CITY_FINDER = new CityFinder(null , 'someUrl') {
         @Override
-        Optional<Place.PlaceDetails> findCityFromCoordinates(long latitude, long longitude) {
+        Optional<Place.PlaceDetails> findCityFromCoordinates(Double latitude, Double longitude) {
             return Optional.of(new Place.PlaceDetails('Washington', 'US'))
         }
     }
 
     private static final CityFinder MISSING_PLACE_RETURNING_CITY_FINDER = new CityFinder(null, 'someUrl') {
         @Override
-        Optional<Place.PlaceDetails> findCityFromCoordinates(long latitude, long longitude) {
+        Optional<Place.PlaceDetails> findCityFromCoordinates(Double latitude, Double longitude) {
             return Optional.empty()
         }
     }
