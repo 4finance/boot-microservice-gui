@@ -49,7 +49,7 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
     def "should find a place by verifying tweet's coordinates"() {
         given: 'a tweet with a coordinates section filled in'
             String tweet = TWEET_WITH_COORDINATES
-            stubInteraction(wireMockGet('/?lat=-75&lon=40'), aResponse().withBody(CITY_FOUND))
+            stubInteraction(wireMockGet('/?lat=-75.14310264&lon=40.05701649'), aResponse().withBody(CITY_FOUND))
             stubInteraction(post(COLLERATOR_URL_WITH_PAIR_ID), aResponse().withStatus(HttpStatus.OK.value()))
         when: 'trying to retrieve place from the tweet'
             mockMvc.perform(put("$ROOT_PATH/$PAIR_ID").contentType(TWITTER_PLACES_ANALYZER_MICROSERVICE_V1).content("[$tweet]"))
@@ -67,7 +67,7 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
                                                                                     "probability" : "2",
                                                                                     "origin" : "twitter_coordinates_section"
                                                                                 }]
-                                                                            ''')))})            
+                                                                            ''')))})
     }
 
     // http://api.openweathermap.org/data/2.5/weather?q=London
