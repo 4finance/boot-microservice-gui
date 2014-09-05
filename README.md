@@ -16,17 +16,18 @@ Inside you will find [bower](http://bower.io/) for javascript dependency managem
 
 ### Development mode
 
-Before first use build your whole application with gradle build. It will download auto-magically all npms and bower dependencies.
+Before first use, build your whole application with `gradle build`. It will download auto-magically all npms and bower dependencies.
 
-First run you application (for example from Idea, just run main in Application specifying the correct -Dspring.profiles.active).
+Then run you application (for example from Idea, just run main in `com.ofg.microservice.Application` specifying 
+the correct -Dspring.profiles.active).
 
-Then go to `src/main/web` and type `grunt serve`. This will run a local webserver on port 9000, your application will 
+Finally go to `src/main/web` and type `grunt serve`. This will run a local webserver on port 9000, your application will 
 automatically open in the browser and from now on on every change in you webapp the browser will automatically refresh
 (no need to hit cmd-R all the time!).
 
 ### Production mode
 
-When you build your application there is a special directory called "dist" created where grunt puts your minified, compacted
+When you build your application there is a special directory `src/main/web/dist` created, where grunt puts your minified, compacted
 and production-ready application. Then the whole folder will be bundled in your jar's `static` folder which will make
 it available when you run the jar.
 
@@ -34,7 +35,7 @@ it available when you run the jar.
 
 Once you expose some REST services on your backend, you will probably want to call them from Angular.
 
-To make it possible in the Development mode, you will have to expose every those services via proxy (your dev page is available
+To make it possible in the Development mode, you will have to expose them via proxy (your dev page is available
 on port 9000 while the app is on 8080, remember?). Look into `src/main/web/Gruntfile.js` and inside `connect` you will have
 `proxies` section like this
 
