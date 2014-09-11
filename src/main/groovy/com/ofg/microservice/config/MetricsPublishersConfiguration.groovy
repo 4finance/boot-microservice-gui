@@ -1,22 +1,21 @@
 package com.ofg.microservice.config
-
 import com.codahale.metrics.MetricRegistry
 import com.codahale.metrics.graphite.Graphite
 import com.ofg.infrastructure.metrics.publishing.GraphitePublisher
 import com.ofg.infrastructure.metrics.publishing.GraphitePublisher.PublishingInterval
 import com.ofg.infrastructure.metrics.publishing.JmxPublisher
-import com.ofg.infrastructure.metrics.registry.MetricsRegistryConfiguration
 import groovy.transform.TypeChecked
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Import
+import org.springframework.context.annotation.Profile
 
+import static com.ofg.config.BasicProfiles.PRODUCTION
 import static java.util.concurrent.TimeUnit.*
 
 @TypeChecked
 @Configuration
-@Import(MetricsRegistryConfiguration)
+@Profile(PRODUCTION)
 class MetricsPublishersConfiguration {
 
     @Bean(initMethod = "start", destroyMethod = "stop")

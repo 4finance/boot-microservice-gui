@@ -1,12 +1,12 @@
 package com.ofg.twitter.controller.place.extractor
 
-import com.ofg.infrastructure.web.resttemplate.RestTemplate
 import com.ofg.twitter.controller.place.Place
+import org.springframework.web.client.RestOperations
 import spock.lang.Specification
 
 class CityFinderSpec extends Specification {
 
-    RestTemplate restTemplate = Stub()
+    RestOperations restTemplate = Stub()
     CityFinder cityFinder = new CityFinder(restTemplate, 'someUrl')
 
     def 'should find city by providing its coordinates'() {
