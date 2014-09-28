@@ -3,21 +3,18 @@ import com.ofg.twitter.controller.place.Place
 import groovy.json.JsonSlurper
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpStatus
-import org.springframework.web.client.RestOperations
 
 class CityFinder {
 
-    private final RestOperations restTemplate
-    private final String cityFindingServiceUrl
+    private final WeatherClient weatherClient
 
-    CityFinder(RestOperations restTemplate, String cityFindingServiceUrl) {
-        this.restTemplate = restTemplate
-        this.cityFindingServiceUrl = cityFindingServiceUrl
+    CityFinder(WeatherClient weatherClient) {
+        this.weatherClient = weatherClient
     }
 
     @Cacheable('cities')
     Optional<Place.PlaceDetails> findCityFromCoordinates(Double latitude, Double longitude) {
-        String cityResponse = restTemplate.getForObject("$cityFindingServiceUrl?lat=${latitude}&lon=${longitude}", String)
+        String cityResponse = weatherClient.findCity(latitude, longitude)
         def parsedCityResponse = new JsonSlurper().parseText(cityResponse)
         if (!isStatusResponseOk(parsedCityResponse)) {
             return Optional.empty()
@@ -26,12 +23,12 @@ class CityFinder {
     }
 
     boolean isCityExistent(String cityNameToCheck) {
-        String cityResponse = restTemplate.getForObject("$cityFindingServiceUrl?q=$cityNameToCheck", String)
+        String cityResponse = weatherClient.isCityExistent(cityNameToCheck)
         def parsedCityResponse = new JsonSlurper().parseText(cityResponse)
         return isStatusResponseOk(parsedCityResponse)
     }
 
-    private boolean isStatusResponseOk(parsedCityResponse) {
-        parsedCityResponse.cod.toInteger() == HttpStatus.OK.value()
+    private boolean isStatusResponseOk(def parsedCityResponse) {
+        return parsedCityResponse.cod.toInteger() == HttpStatus.OK.value()
     }
 }

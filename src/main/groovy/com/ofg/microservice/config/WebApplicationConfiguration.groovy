@@ -7,4 +7,6 @@ import org.springframework.context.annotation.Import
 @Configuration
 @Import(WebAppConfiguration)
 class WebApplicationConfiguration {
+
+
 }
