@@ -21,9 +21,28 @@ Before first use, build your whole application with `gradle build`. It will down
 Then run you application (for example from Idea, just run main in `com.ofg.microservice.Application` specifying 
 the correct -Dspring.profiles.active).
 
+Now your application (backend) works. But you still need js+html. And since this is 2014, you don't just write html anymore, you have to use a shitload of libs :)
+
+Install npm if you don't have it already. For example on Debian-based linux run:
+```
+sudo apt-get install npm
+```
+
+Then install grunt.
+```
+sudo npm install -g grunt-cli
+```
+
+And now make a symbolic link, because nodejs from Debian repos has a wrong name
+```
+ln -s /usr/bin/nodejs /usr/bin/node
+```
+
 Finally go to `src/main/web` and type `grunt serve`. This will run a local webserver on port 9000, your application will 
 automatically open in the browser and from now on on every change in you webapp the browser will automatically refresh
 (no need to hit cmd-R all the time!).
+
+Easy, right? Writing HTML in 2014 is simple... nooooot! :D 
 
 ### Production mode
 
