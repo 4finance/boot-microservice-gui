@@ -12,11 +12,11 @@
     <form role="form">
         <div class="form-group">
             <label for="latitude">Latitude</label>
-            <input type="text" class="form-control" id="latitude" placeholder="Latitude" ng-model="lat">
+            <input type="text" class="form-control" id="latitude" placeholder="Latitude" ng-model="coords.lat">
         </div>
         <div class="form-group">
             <label for="longtitude">Longtitude</label>
-            <input type="text" class="form-control" id="longtitude" placeholder="Longtitude" ng-model="lon">
+            <input type="text" class="form-control" id="longtitude" placeholder="Longtitude" ng-model="coords.lon">
         </div>
         <button type="button" class="btn btn-default" ng-click="findCity()">Find</button>
     </form>
