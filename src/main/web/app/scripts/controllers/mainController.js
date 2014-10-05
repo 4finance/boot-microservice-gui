@@ -22,7 +22,7 @@ angular.module('BootstrapApplication.controllers')
             $scope.city = '';
 
             $scope.findCity = function() {
-                CityService.findCity($scope.coords.lat, $scope.coords.lon, function(data) {
+                CityService.findCity($scope.coords, function(data) {
                     $scope.city = data;
                 });
             };

@@ -3,9 +3,9 @@
 angular.module('BootstrapApplication.services')
     .factory('CityService', ['$http', function($http) {
         var cityService = {};
-        cityService.findCity = function (lat, lon, successFn) {
+        cityService.findCity = function (coords, successFn) {
             $http({
-                url: '/city/'+lat+'/'+lon,
+                url: '/city/'+coords.lat+'/'+coords.lon,
                 dataType: 'json',
                 method: 'POST',
                 data: '',
