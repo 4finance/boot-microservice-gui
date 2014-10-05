@@ -3,8 +3,8 @@
 angular.module('BootstrapApplication.services')
     .factory('CityService', ['$http', function($http) {
         var cityService = {};
-        cityService.findCity = function (coords, successFn) {
-            $http({
+        cityService.findCity = function (coords) {
+            return $http({
                 url: '/city/'+coords.lat+'/'+coords.lon,
                 dataType: 'json',
                 method: 'POST',
@@ -12,8 +12,6 @@ angular.module('BootstrapApplication.services')
                 headers: {
                     'Content-Type': 'application/vnd.com.ofg.twitter-places-analyzer.v1+json'
                 }
-            }).success(function (data) {
-                successFn(data);
             });
         };
 

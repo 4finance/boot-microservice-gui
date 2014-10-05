@@ -22,9 +22,14 @@ angular.module('BootstrapApplication.controllers')
             $scope.city = '';
 
             $scope.findCity = function() {
-                CityService.findCity($scope.coords, function(data) {
-                    $scope.city = data;
-                });
+                CityService
+                    .findCity($scope.coords)
+                    .success(function (data) {
+                        $scope.city = data;
+                    })
+                    .error(function(reason) {
+                        $scope.alerts = [{msg: reason}];
+                    });
             };
 
             $scope.closeAlert = function (index) {
