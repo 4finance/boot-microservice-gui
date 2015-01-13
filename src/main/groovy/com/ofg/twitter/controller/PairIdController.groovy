@@ -32,7 +32,9 @@ class PairIdController {
     @ApiOperation(value = "Async collecting and propagating of tweets for a given pairId",
             notes = "This will asynchronously call tweet collecting, place extracting and their propagation to Collerators")
     Callable<Void> getPlacesFromTweets(@PathVariable @NotNull long pairId, @RequestBody @NotNull List<Tweet> tweets) {
-        propagationWorker.collectAndPropagate(pairId, tweets)
+        return {
+            propagationWorker.collectAndPropagate(pairId, tweets)
+        }
     }
 
 }

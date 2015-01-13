@@ -14,7 +14,6 @@ import static com.ofg.twitter.controller.tweets.Tweets.TWEET_WITH_COORDINATES
 import static com.ofg.twitter.controller.tweets.Tweets.TWEET_WITH_PLACE
 import static java.util.concurrent.TimeUnit.SECONDS
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ContextConfiguration(classes = ColleratorClientStubConfiguration)
@@ -33,7 +32,7 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
             mockMvc.perform(put("$ROOT_PATH/$PAIR_ID").
                     contentType(TWITTER_PLACES_ANALYZER_MICROSERVICE_V1).
                     content("[$tweet]")).
-                    andDo(print()).
+                    //andDo(print()).
                     andExpect(status().isOk())
         then: "user's location (place) will be extracted from that section"
             await().atMost(2, SECONDS).untilAtomic(colleratorClientStub.savedPairId, CoreMatchers.<Long>equalTo(PAIR_ID))
