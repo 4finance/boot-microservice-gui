@@ -1,5 +1,4 @@
-package com.ofg.twitter.places
-import com.github.tomakehurst.wiremock.client.UrlMatchingStrategy
+package com.ofg.twitter.controller.place
 import com.ofg.base.MicroserviceMvcWiremockSpec
 import org.hamcrest.CoreMatchers
 import org.springframework.beans.factory.annotation.Autowired
@@ -7,13 +6,12 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import static com.jayway.awaitility.Awaitility.await
 import static com.ofg.infrastructure.base.dsl.Matchers.equalsReferenceJson
 import static com.ofg.infrastructure.base.dsl.WireMockHttpRequestMapper.wireMockGet
 import static com.ofg.twitter.controller.place.extractor.WeatherApiResponses.CITY_FOUND
-import static com.ofg.twitter.tweets.Tweets.TWEET_WITH_COORDINATES
-import static com.ofg.twitter.tweets.Tweets.TWEET_WITH_PLACE
+import static com.ofg.twitter.controller.tweets.Tweets.TWEET_WITH_COORDINATES
+import static com.ofg.twitter.controller.tweets.Tweets.TWEET_WITH_PLACE
 import static java.util.concurrent.TimeUnit.SECONDS
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
@@ -27,16 +25,16 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
     static final String ROOT_PATH = '/api'
     static final Long PAIR_ID = 1
     static final MediaType TWITTER_PLACES_ANALYZER_MICROSERVICE_V1 = new MediaType('application', 'vnd.com.ofg.twitter-places-analyzer.v1+json')
-    static final String COLLERATOR_ENPOINT_URL = '/collerator'
-    static final UrlMatchingStrategy COLLERATOR_URL_WITH_PAIR_ID = urlEqualTo("$COLLERATOR_ENPOINT_URL/$PAIR_ID")
 
     def "should find a place by verifying tweet's geolocation"() {
         given: 'a tweet with a place section filled in'
             String tweet = TWEET_WITH_PLACE
         when: "trying to retrieve place from the tweet"
-            mockMvc.perform(put("$ROOT_PATH/$PAIR_ID").contentType(TWITTER_PLACES_ANALYZER_MICROSERVICE_V1).content("[$tweet]"))
-                    .andDo(print())
-                   .andExpect(status().isOk())
+            mockMvc.perform(put("$ROOT_PATH/$PAIR_ID").
+                    contentType(TWITTER_PLACES_ANALYZER_MICROSERVICE_V1).
+                    content("[$tweet]")).
+                    andDo(print()).
+                    andExpect(status().isOk())
         then: "user's location (place) will be extracted from that section"
             await().atMost(2, SECONDS).untilAtomic(colleratorClientStub.savedPairId, CoreMatchers.<Long>equalTo(PAIR_ID))
             await().atMost(2, SECONDS).untilAtomic(colleratorClientStub.savedPlaces, equalsReferenceJson('''
@@ -59,8 +57,11 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
             String tweet = TWEET_WITH_COORDINATES
             stubInteraction(wireMockGet('/?lat=-75.14310264&lon=40.05701649'), aResponse().withBody(CITY_FOUND))
         when: 'trying to retrieve place from the tweet'
-            mockMvc.perform(put("$ROOT_PATH/$PAIR_ID").contentType(TWITTER_PLACES_ANALYZER_MICROSERVICE_V1).content("[$tweet]"))
-                    .andExpect(status().isOk())
+            mockMvc.perform(put("$ROOT_PATH/$PAIR_ID").
+                    contentType(TWITTER_PLACES_ANALYZER_MICROSERVICE_V1).
+                    content("[$tweet]")).
+                    andDo(print()).
+                    andExpect(status().isOk())
         then: "user's location (place) will be extracted from that section"
             await().atMost(2, SECONDS).untilAtomic(colleratorClientStub.savedPairId, CoreMatchers.<Long>equalTo(PAIR_ID))
             await().atMost(2, SECONDS).untilAtomic(colleratorClientStub.savedPlaces, equalsReferenceJson('''

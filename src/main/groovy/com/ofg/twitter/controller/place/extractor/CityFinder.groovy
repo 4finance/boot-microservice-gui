@@ -1,4 +1,5 @@
 package com.ofg.twitter.controller.place.extractor
+
 import com.ofg.twitter.controller.place.Place
 import groovy.json.JsonSlurper
 import org.springframework.cache.annotation.Cacheable

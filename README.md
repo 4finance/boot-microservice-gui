@@ -18,7 +18,7 @@ Inside you will find [bower](http://bower.io/) for javascript dependency managem
 
 Before first use, build your whole application with `gradle build`. It will download auto-magically all npms and bower dependencies.
 
-Then run you application (for example from Idea, just run main in `com.ofg.microservice.Application` specifying 
+Then run you application (for example from Idea, just run main in `com.ofg.twitter.Application` specifying
 the correct -Dspring.profiles.active).
 
 Now your application (backend) works. But you still need js+html. And since this is 2014, you don't just write html anymore, you have to use a shitload of libs :)

@@ -1,5 +1,6 @@
 package com.ofg.twitter.controller.place.extractor
 
+import com.ofg.twitter.controller.place.model.Tweet
 import com.ofg.twitter.controller.place.Place
 import com.ofg.twitter.controller.place.PlacesJsonBuilder
 import groovy.transform.TypeChecked
@@ -27,7 +28,7 @@ class PlacePropagatingWorker implements PropagationWorker {
     }
 
     @Override
-    void collectAndPropagate(long pairId, String tweets) {
+    void collectAndPropagate(long pairId, List<Tweet> tweets) {
         Map<String, Optional<Place>> extractedPlaces = placesExtractor.extractPlacesFrom(tweets)
         String jsonToPropagate = placesJsonBuilder.buildPlacesJson(pairId, extractedPlaces)        
         colleratorClient.populatePlaces(pairId, jsonToPropagate)
