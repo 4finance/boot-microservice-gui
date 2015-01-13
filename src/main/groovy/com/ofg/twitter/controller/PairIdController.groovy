@@ -4,6 +4,7 @@ import com.ofg.twitter.controller.place.extractor.PropagationWorker
 import com.ofg.twitter.controller.place.model.Tweet
 import com.wordnik.swagger.annotations.Api
 import com.wordnik.swagger.annotations.ApiOperation
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,6 +18,7 @@ import java.util.concurrent.Callable
 import static org.springframework.web.bind.annotation.RequestMethod.PUT
 
 @Slf4j
+@CompileStatic
 @RestController
 @RequestMapping('/api')
 @Api(value = "pairId", description = "Collects places from tweets and propagates them to Collerators")
