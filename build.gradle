@@ -239,3 +239,7 @@ clean << {
 bower.dependsOn installAllNpm
 grunt.dependsOn bower
 jar.dependsOn grunt
+
+wrapper {
+    gradleVersion '2.2.1'
+}
