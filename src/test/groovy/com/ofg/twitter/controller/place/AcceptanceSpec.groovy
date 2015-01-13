@@ -60,8 +60,10 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
             mockMvc.perform(put("$ROOT_PATH/$PAIR_ID").
                     contentType(TWITTER_PLACES_ANALYZER_MICROSERVICE_V1).
                     content("[$tweet]")).
-                    andDo(print()).
+//                    //TODO: Rewrite with proper asyncResult handling
+//                    andDo(print()).   //Workaround for "IllegalStateException: Async result for handler (...) was not set during the specified timeToWait=0"
                     andExpect(status().isOk())
+
         then: "user's location (place) will be extracted from that section"
             await().atMost(2, SECONDS).untilAtomic(colleratorClientStub.savedPairId, CoreMatchers.<Long>equalTo(PAIR_ID))
             await().atMost(2, SECONDS).untilAtomic(colleratorClientStub.savedPlaces, equalsReferenceJson('''
