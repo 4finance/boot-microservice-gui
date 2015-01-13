@@ -1,13 +1,13 @@
 package com.ofg.twitter.controller.place.extractor
 
+import com.ofg.twitter.controller.place.model.Tweet
 import com.ofg.twitter.controller.place.Place
-import com.ofg.twitter.controller.place.extractor.PlaceExtractor.PlaceResolutionProbability
 import groovy.transform.PackageScope
 
 @PackageScope
 interface PlaceExtractor {
 
-    Optional<Place> extractPlaceFrom(Object parsedTweet)
+    Optional<Place> extractPlaceFrom(Tweet parsedTweet)
 
     String getOrigin()
 

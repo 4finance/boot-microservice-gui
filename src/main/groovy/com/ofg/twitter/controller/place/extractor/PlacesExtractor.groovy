@@ -1,8 +1,7 @@
 package com.ofg.twitter.controller.place.extractor
-
 import com.codahale.metrics.Meter
 import com.ofg.twitter.controller.place.Place
-import groovy.json.JsonSlurper
+import com.ofg.twitter.controller.place.model.Tweet
 import groovy.transform.PackageScope
 import groovyx.gpars.GParsPool
 
@@ -19,21 +18,20 @@ class PlacesExtractor {
         this.analyzedTweetsMeter = analyzedTweetsMeter
     }
 
-    Map<String, Optional<Place>> extractPlacesFrom(String tweets) {
-        Map<String, Optional<Place>> foundPlaces = new ConcurrentHashMap<>()    
-        def parsedTweets = new JsonSlurper().parseText(tweets)
+    Map<String, Optional<Place>> extractPlacesFrom(List<Tweet> tweets) {
+        Map<String, Optional<Place>> foundPlaces = new ConcurrentHashMap<>()
         GParsPool.withPool {
-            parsedTweets.eachParallel { foundPlaces << appendExtractedTweet(it) }                 
+            tweets.eachParallel { foundPlaces << appendExtractedTweet(it) }
         }
         analyzedTweetsMeter.mark(foundPlaces.size())
         return foundPlaces
     }
 
-    private Map<String, Optional<Place>> appendExtractedTweet(Object parsedTweets) {
-        return [(parsedTweets.id_str as String): extractPlace(parsedTweets)]
+    private Map<String, Optional<Place>> appendExtractedTweet(Tweet tweet) {
+        return [(tweet.id_str as String): extractPlace(tweet)]
     }
 
-    private Optional<Place> extractPlace(Object singleTweet) {
+    private Optional<Place> extractPlace(Tweet singleTweet) {
         for (PlaceExtractor placeExtractor : placeExtractors) {
             Optional<Place> extractedPlace = placeExtractor.extractPlaceFrom(singleTweet)
             if (extractedPlace.isPresent()) {

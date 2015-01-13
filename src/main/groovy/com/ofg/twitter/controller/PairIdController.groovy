@@ -1,5 +1,7 @@
 package com.ofg.twitter.controller
+
 import com.ofg.twitter.controller.place.extractor.PropagationWorker
+import com.ofg.twitter.controller.place.model.Tweet
 import com.wordnik.swagger.annotations.Api
 import com.wordnik.swagger.annotations.ApiOperation
 import groovy.util.logging.Slf4j
@@ -22,7 +24,6 @@ class PairIdController {
 
     @Autowired private PropagationWorker propagationWorker
 
-    
     @RequestMapping(
             value = '{pairId}',
             method = PUT,
@@ -30,7 +31,7 @@ class PairIdController {
             produces = 'application/vnd.com.ofg.twitter-places-analyzer.v1+json')
     @ApiOperation(value = "Async collecting and propagating of tweets for a given pairId",
             notes = "This will asynchronously call tweet collecting, place extracting and their propagation to Collerators")
-    Callable<Void> getPlacesFromTweets(@PathVariable @NotNull long pairId, @RequestBody @NotNull String tweets) {
+    Callable<Void> getPlacesFromTweets(@PathVariable @NotNull long pairId, @RequestBody @NotNull List<Tweet> tweets) {
         propagationWorker.collectAndPropagate(pairId, tweets)
     }
 

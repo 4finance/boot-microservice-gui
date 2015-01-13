@@ -1,7 +1,7 @@
 package com.ofg.base
 
 import com.ofg.infrastructure.base.IntegrationSpec
-import com.ofg.microservice.Application
+import com.ofg.twitter.Application
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration

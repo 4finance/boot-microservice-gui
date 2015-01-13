@@ -1,4 +1,4 @@
-package com.ofg.twitter.places
+package com.ofg.twitter.controller.place
 
 import com.ofg.infrastructure.web.resttemplate.fluent.ServiceRestClient
 import com.ofg.twitter.controller.place.extractor.ColleratorClient
