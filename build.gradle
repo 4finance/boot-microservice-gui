@@ -36,7 +36,7 @@ ext {
     currentVersion = "${versionPrefix}-${buildNrLoc}"
     
     jacksonMapper = '1.9.13'
-    microInfraSpringVersion = '0.8.3'
+    //microInfraSpring version moved to gradle.properties
 }
 
 uploadArchives {
