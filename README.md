@@ -1,3 +1,8 @@
+DEPRECATED
+
+This project has been moved to a branch of boot-microservice project. See [here](https://github.com/4finance/boot-microservice/tree/boot-microservice-gui).
+
+
 boot-microservice-gui
 =======================
 
@@ -38,7 +43,7 @@ And now make a symbolic link, because nodejs from Debian repos has a wrong name
 ln -s /usr/bin/nodejs /usr/bin/node
 ```
 
-Finally go to `src/main/web` and type `grunt serve`. This will run a local webserver on port 9000, your application will 
+Next, go to `src/main/web` and type `npm install`. This will download all needed libraries defined in `package.json` file and install bower components at the end. After this you can finally `grunt serve`. This will run a local webserver on port 9000, your application will
 automatically open in the browser and from now on on every change in you webapp the browser will automatically refresh
 (no need to hit cmd-R all the time!).
 
